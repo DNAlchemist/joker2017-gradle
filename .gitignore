@@ -1,0 +1,16 @@
+#
+.gradle
+
+# build generated files
+build/
+
+# Eclipse project files
+.classpath
+.project
+.settings
+
+# IntelliJ project files
+.idea/
+jbreak2017-dsl-in-practicle.iml
+jbreak2017-dsl-in-practicle.ipr
+jbreak2017-dsl-in-practicle.iws

@@ -1,0 +1,3 @@
+import ru.jpoint2017.BuildTest
+
+apply plugin: BuildTest.KotlinPlugin

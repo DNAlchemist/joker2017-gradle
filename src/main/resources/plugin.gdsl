@@ -1,0 +1,7 @@
+def scriptName = /.*\.granny/
+def ctx = context(scope: scriptScope(name: scriptName))
+
+contributor(ctx) {
+    delegatesTo(findClass("ru.jpoint2017.Project"))
+}
+
