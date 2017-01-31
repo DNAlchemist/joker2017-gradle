@@ -5,12 +5,10 @@ import ru.jpoint2017.ApplyConfig.Plugin;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by ruslanmikhalev on 31/01/17.
- */
+@SuppressWarnings("WeakerAccess")
 public class Plugins {
 
-    public static Map<String, Plugin> plugins = new HashMap<>();
+    private static Map<String, Plugin> plugins = new HashMap<>();
     static {
         plugins.put("java", project -> project.compilers.add("java"));
         plugins.put("groovy", project -> project.compilers.add("groovy"));

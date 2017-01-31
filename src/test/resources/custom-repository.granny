@@ -1,0 +1,3 @@
+repository {
+    maven { url 'http://custom-repository.com' }
+}

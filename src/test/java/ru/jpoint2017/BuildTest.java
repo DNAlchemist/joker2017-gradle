@@ -71,6 +71,24 @@ public class BuildTest {
         });
     }
 
+    @Test
+    public void defaultRepository() {
+        assertProject("default-repository.granny", project -> {
+            assertEquals(1, project.getRepositories().size());
+        });
+    }
+
+    @Test
+    public void customRepository() {
+        assertProject("custom-repository.granny", project -> {
+            assertTrue(project.getRepositories().stream()
+                    .map(MavenRepository::getUrl)
+                    .filter("http://custom-repository.com"::equals)
+                    .findAny()
+                    .isPresent());
+        });
+    }
+
     private void assertProject(String resourceName, Consumer<Project> o) {
         GrannyInternal internal = new GrannyInternal(getBuildFileFromResources(resourceName));
         Project project = internal.build();

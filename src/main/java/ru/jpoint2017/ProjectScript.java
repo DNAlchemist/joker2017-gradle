@@ -2,9 +2,6 @@ package ru.jpoint2017;
 
 import groovy.lang.*;
 
-/**
- * Created by ruslanmikhalev on 31/01/17.
- */
 @SuppressWarnings("WeakerAccess")
 public abstract class ProjectScript extends Script  {
 

@@ -2,9 +2,6 @@ package ru.jpoint2017;
 
 import java.io.File;
 
-/**
- * Created by ruslanmikhalev on 30/01/17.
- */
 @SuppressWarnings("WeakerAccess")
 public class ApplyConfig {
 

@@ -3,7 +3,6 @@ package ru.jpoint2017;
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.lang.GroovyObjectSupport;
-import groovy.lang.Script;
 
 import java.io.File;
 import java.util.HashSet;
@@ -20,6 +19,7 @@ public class Project extends GroovyObjectSupport implements PluginAware {
 
     final File projectDir;
     private String sourceCompatibility;
+    private RepositoryHandler repositoryHandler = new RepositoryHandler();
 
     public Project(File projectDir) {
         this.projectDir = projectDir;
@@ -59,6 +59,12 @@ public class Project extends GroovyObjectSupport implements PluginAware {
         return sourceCompatibility;
     }
 
+    public Set<MavenRepository> getRepositories() {
+        return repositoryHandler.repositories;
+    }
 
-
+    public void repository(@DelegatesTo(RepositoryHandler.class) Closure closure) {
+        closure.setDelegate(repositoryHandler);
+        closure.call();
+    }
 }

@@ -8,9 +8,6 @@ import org.codehaus.groovy.runtime.ResourceGroovyMethods;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by ruslanmikhalev on 30/01/17.
- */
 @SuppressWarnings("WeakerAccess")
 public class GrannyInternal {
 
