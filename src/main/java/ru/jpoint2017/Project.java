@@ -9,9 +9,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by ruslanmikhalev on 30/01/17.
- */
 @SuppressWarnings("WeakerAccess")
 public class Project extends GroovyObjectSupport implements PluginAware {
 
@@ -20,6 +17,7 @@ public class Project extends GroovyObjectSupport implements PluginAware {
     final File projectDir;
     private String sourceCompatibility;
     private RepositoryHandler repositoryHandler = new RepositoryHandler();
+    private DependencyHandler dependencyHandler = new DependencyHandler();
 
     public Project(File projectDir) {
         this.projectDir = projectDir;
@@ -67,4 +65,14 @@ public class Project extends GroovyObjectSupport implements PluginAware {
         closure.setDelegate(repositoryHandler);
         closure.call();
     }
+
+    public Set<Dependency> getDependencies() {
+        return dependencyHandler.dependencies;
+    }
+
+    public void dependencies(@DelegatesTo(DependencyHandler.class) Closure closure) {
+        closure.setDelegate(dependencyHandler);
+        closure.call();
+    }
+
 }

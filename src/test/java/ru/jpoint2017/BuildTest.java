@@ -7,9 +7,13 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Created by ruslanmikhalev on 30/01/17.
@@ -83,9 +87,42 @@ public class BuildTest {
         assertProject("custom-repository.granny", project -> {
             assertTrue(project.getRepositories().stream()
                     .map(MavenRepository::getUrl)
-                    .filter("http://custom-repository.com"::equals)
-                    .findAny()
-                    .isPresent());
+                    .anyMatch("http://custom-repository.com"::equals));
+        });
+    }
+
+    @Test
+    public void simpleDependency() {
+        assertProject("simple-dependencies.granny", project -> {
+            assertEquals(1, project.getDependencies().size());
+            assertTrue(project.getDependencies().stream()
+                    .map(Dependency::getUrl)
+                    .anyMatch("org.ow2.asm:asm-all:5.0.3"::equals));
+        });
+    }
+
+    @Test
+    public void mapDependency() {
+        assertProject("map-dependencies.granny", project -> {
+            assertEquals(1, project.getDependencies().size());
+            assertTrue(project.getDependencies().stream()
+                    .map(Dependency::getUrl)
+                    .anyMatch("junit:junit:4.12"::equals));
+        });
+    }
+
+    @Test
+    public void multipleDependency() {
+        List<String> dependencies = Arrays.asList("org.ow2.asm:asm-all:5.0.3",
+                "junit:junit:4.12",
+                "junit:junit:4.11");
+
+        assertProject("multiple-dependencies.granny", project -> {
+            assertEquals(3, project.getDependencies().size());
+            assertEquals(3, project.getDependencies().stream()
+                    .map(Dependency::getUrl)
+                    .filter(dependencies::contains)
+                    .count());
         });
     }
 
