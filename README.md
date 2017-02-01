@@ -1,2 +1,2 @@
 # jpoint2017-gradle-granny
-![logo](logo/logo.svg)
+![logo](https://rawgit.com/DNAlchemist/jpoint2017-gradle/master/logo/logo.svg)
