@@ -13,27 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.jpoint2017;
+package ru.jpoint2017.dependency;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-public class DependencyHandler {
-    Set<Dependency> dependencies = new HashSet<>();
+@SuppressWarnings("WeakerAccess")
+public class Dependency {
+    private String group;
+    private String name;
+    private String version;
 
-    public void compile(String... dependencies) {
-        this.dependencies.addAll(
-                Arrays.stream(dependencies)
-                        .map(Dependency::new)
-                        .collect(Collectors.toSet())
-        );
+    public Dependency(String dependency) {
+        String[] params = dependency.split(":");
+        group = params[0];
+        name = params[1];
+        version = params[2];
     }
 
-    public void compile(Map<String, String> dependency) {
-        this.dependencies.add(new Dependency(dependency));
+    public Dependency(Map<String, String> params) {
+        group = params.get("group");
+        name = params.get("name");
+        version = params.get("version");
     }
 
+    public String getUrl() {
+        return group + ":" + name + ":" + version;
+    }
 }

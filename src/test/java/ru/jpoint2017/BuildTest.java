@@ -2,6 +2,9 @@ package ru.jpoint2017;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import ru.jpoint2017.apply.ApplyConfig;
+import ru.jpoint2017.dependency.Dependency;
+import ru.jpoint2017.repository.MavenRepository;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -15,9 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-/**
- * Created by ruslanmikhalev on 30/01/17.
- */
 @Tag("fast")
 public class BuildTest {
 
@@ -54,18 +54,18 @@ public class BuildTest {
         });
     }
 
-    public static class KotlinPlugin implements ApplyConfig.Plugin {
-        @Override
-        public void apply(Project project) {
-            project.compilers.add("kotlin");
-        }
-    }
-
     @Test
     public void applyCustomPlugin() {
         assertProject("apply-custom-plugin.granny", project -> {
             assertTrue(project.compilers.contains("kotlin"));
         });
+    }
+
+    public static class KotlinPlugin implements ApplyConfig.Plugin {
+        @Override
+        public void apply(Project project) {
+            project.compilers.add("kotlin");
+        }
     }
 
     @Test

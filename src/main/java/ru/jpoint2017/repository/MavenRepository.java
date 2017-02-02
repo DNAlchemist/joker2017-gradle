@@ -1,4 +1,4 @@
-package ru.jpoint2017;
+package ru.jpoint2017.repository;
 
 @SuppressWarnings("WeakerAccess")
 public class MavenRepository {

@@ -1,8 +1,6 @@
-package ru.jpoint2017;
+package ru.jpoint2017.exception;
 
-@SuppressWarnings("WeakerAccess")
 public class InternalException extends RuntimeException {
-
     public InternalException(String reason, Throwable cause) {
         super(reason, cause);
     }

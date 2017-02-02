@@ -3,6 +3,11 @@ package ru.jpoint2017;
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.lang.GroovyObjectSupport;
+import ru.jpoint2017.apply.ApplyConfig;
+import ru.jpoint2017.dependency.Dependency;
+import ru.jpoint2017.dependency.DependencyHandler;
+import ru.jpoint2017.repository.MavenRepository;
+import ru.jpoint2017.repository.RepositoryHandler;
 
 import java.io.File;
 import java.util.HashSet;
@@ -10,9 +15,9 @@ import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings("WeakerAccess")
-public class Project extends GroovyObjectSupport implements PluginAware {
+public class Project extends GroovyObjectSupport {
 
-    Set<String> compilers = new HashSet<>();
+    public final Set<String> compilers = new HashSet<>();
 
     final File projectDir;
     private String sourceCompatibility;
@@ -23,18 +28,11 @@ public class Project extends GroovyObjectSupport implements PluginAware {
         this.projectDir = projectDir;
     }
 
-    @Override
     public void apply(@DelegatesTo(ApplyConfig.class) Closure closure) {
         closure.setDelegate(new ApplyConfig(this));
         closure.call();
     }
 
-    @Override
-    public void apply(Action<? super ApplyConfig> action) {
-        throw new UnsupportedOperationException("apply");
-    }
-
-    @Override
     public void apply(Map<String, ?> options) {
         ApplyConfig applyConfig = new ApplyConfig(this);
         applyConfig.from((String)options.get("from"));
@@ -49,12 +47,12 @@ public class Project extends GroovyObjectSupport implements PluginAware {
         return projectDir;
     }
 
-    public void setSourceCompatibility(String sourceCompatibility) {
-        this.sourceCompatibility = sourceCompatibility;
-    }
-
     public String getSourceCompatibility() {
         return sourceCompatibility;
+    }
+
+    public void setSourceCompatibility(String sourceCompatibility) {
+        this.sourceCompatibility = sourceCompatibility;
     }
 
     public Set<MavenRepository> getRepositories() {
