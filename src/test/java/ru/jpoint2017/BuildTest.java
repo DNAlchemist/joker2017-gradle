@@ -129,11 +129,45 @@ public class BuildTest {
 
     @Test
     @Disabled
+    public void taskEmpty() {
+        assertProject("task-empty.granny", project -> {
+        });
+    }
+
+    @Test
+    @Disabled
     public void taskHello() {
         assertProject("task-hello.granny", project -> {
         });
     }
 
+    @Test
+    @Disabled
+    public void taskDependsOn() {
+        assertProject("task-dependsOn.granny", project -> {
+        });
+    }
+
+    @Test
+    @Disabled
+    public void taskDependsOnField() {
+        assertProject("task-dependsOnField.granny", project -> {
+        });
+    }
+
+    @Test
+    @Disabled
+    public void taskDoFirst() {
+        assertProject("task-doFirst.granny", project -> {
+        });
+    }
+
+    @Test
+    @Disabled
+    public void taskDoFirstField() {
+        assertProject("task-doFirst-field.granny", project -> {
+        });
+    }
 
     private void assertProject(String resourceName, Consumer<Project> o) {
         GrannyInternal internal = new GrannyInternal(getBuildFileFromResources(resourceName));

@@ -1,0 +1,6 @@
+task parent {
+    println "parent"
+}
+task children(dependsOn: parent) {
+    println "children"
+}
