@@ -19,21 +19,17 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class DependencyHandler {
-    public final Set<Dependency> dependencies = new HashSet<>();
+    public final Set<Dependency> depends = new HashSet<>();
 
     public void compile(String... dependencies) {
-        this.dependencies.addAll(
-                Arrays.stream(dependencies)
-                        .map(Dependency::new)
-                        .collect(Collectors.toSet())
-        );
+        Arrays.stream(dependencies)
+                .map(Dependency::new)
+                .forEach(depends::add);
     }
 
     public void compile(Map<String, String> dependency) {
-        this.dependencies.add(new Dependency(dependency));
+        depends.add(new Dependency(dependency));
     }
-
 }

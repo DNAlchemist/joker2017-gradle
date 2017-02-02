@@ -65,7 +65,7 @@ public class Project extends GroovyObjectSupport {
     }
 
     public Set<Dependency> getDependencies() {
-        return dependencyHandler.dependencies;
+        return dependencyHandler.depends;
     }
 
     public void dependencies(@DelegatesTo(DependencyHandler.class) Closure closure) {
