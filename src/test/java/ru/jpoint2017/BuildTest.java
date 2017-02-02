@@ -1,5 +1,6 @@
 package ru.jpoint2017;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import ru.jpoint2017.apply.ApplyConfig;
@@ -125,6 +126,14 @@ public class BuildTest {
                     .count());
         });
     }
+
+    @Test
+    @Disabled
+    public void taskHello() {
+        assertProject("task-hello.granny", project -> {
+        });
+    }
+
 
     private void assertProject(String resourceName, Consumer<Project> o) {
         GrannyInternal internal = new GrannyInternal(getBuildFileFromResources(resourceName));
