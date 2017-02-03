@@ -1,17 +1,13 @@
-package ru.jpoint2017;
+package ru.jpoint2017.task;
 
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Created by ruslanmikhalev on 02/02/17.
- */
 @SuppressWarnings("WeakerAccess")
 public class TaskHandler {
 

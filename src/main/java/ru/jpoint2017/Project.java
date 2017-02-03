@@ -8,9 +8,10 @@ import ru.jpoint2017.dependency.Dependency;
 import ru.jpoint2017.dependency.DependencyHandler;
 import ru.jpoint2017.repository.MavenRepository;
 import ru.jpoint2017.repository.RepositoryHandler;
+import ru.jpoint2017.task.Task;
+import ru.jpoint2017.task.TaskHandler;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;

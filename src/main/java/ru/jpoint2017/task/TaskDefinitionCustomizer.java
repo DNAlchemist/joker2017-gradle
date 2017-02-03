@@ -1,9 +1,14 @@
-package ru.jpoint2017;
+package ru.jpoint2017.task;
 
 import groovy.lang.GroovyRuntimeException;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.ModuleNode;
-import org.codehaus.groovy.ast.expr.*;
+import org.codehaus.groovy.ast.expr.ClosureExpression;
+import org.codehaus.groovy.ast.expr.ConstantExpression;
+import org.codehaus.groovy.ast.expr.Expression;
+import org.codehaus.groovy.ast.expr.ExpressionTransformer;
+import org.codehaus.groovy.ast.expr.MethodCallExpression;
+import org.codehaus.groovy.ast.expr.TupleExpression;
 import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ExpressionStatement;
 import org.codehaus.groovy.classgen.GeneratorContext;
@@ -16,9 +21,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by ruslanmikhalev on 01/02/17.
- */
 public class TaskDefinitionCustomizer extends CompilationCustomizer implements ExpressionTransformer {
 
     public TaskDefinitionCustomizer() {

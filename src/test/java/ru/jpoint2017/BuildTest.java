@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import ru.jpoint2017.apply.ApplyConfig;
 import ru.jpoint2017.dependency.Dependency;
 import ru.jpoint2017.repository.MavenRepository;
+import ru.jpoint2017.task.Task;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -61,13 +62,6 @@ public class BuildTest {
         });
     }
 
-    public static class KotlinPlugin implements ApplyConfig.Plugin {
-        @Override
-        public void apply(Project project) {
-            project.compilers.add("kotlin");
-        }
-    }
-
     @Test
     public void setSourceCompatibility() {
         assertProject("set-source-compatibility.granny", project -> {
@@ -96,24 +90,6 @@ public class BuildTest {
         });
     }
 
-    public interface TestTask extends Task {
-        int maxParallelForks = 1;
-    }
-
-//    @Test
-//    public void withTaskType() {
-//        String resourceName = "with-task-type.granny";
-//        File resource = getBuildFileFromResources(resourceName);
-//        Project myProject = new Project(resource.getParentFile());
-//        myProject.getTasks().putTask("test", );
-//        assertProject(resource, myProject, project -> {
-//            Collection<Task> testTasks = project.getTasks().withType(TestTask.class);
-//            assertEquals(1, testTasks);
-//            testTasks.forEach(Task::run);
-//            assertEquals("1.9", project.getSourceCompatibility());
-//        });
-//    }
-
     @Test
     public void customRepository() {
         assertProject("custom-repository.granny", project -> {
@@ -132,6 +108,20 @@ public class BuildTest {
                     .anyMatch("org.ow2.asm:asm-all:5.0.3"::equals));
         });
     }
+
+//    @Test
+//    public void withTaskType() {
+//        String resourceName = "with-task-type.granny";
+//        File resource = getBuildFileFromResources(resourceName);
+//        Project myProject = new Project(resource.getParentFile());
+//        myProject.getTasks().putTask("test", );
+//        assertProject(resource, myProject, project -> {
+//            Collection<Task> testTasks = project.getTasks().withType(TestTask.class);
+//            assertEquals(1, testTasks);
+//            testTasks.forEach(Task::run);
+//            assertEquals("1.9", project.getSourceCompatibility());
+//        });
+//    }
 
     @Test
     public void mapDependency() {
@@ -166,7 +156,6 @@ public class BuildTest {
     }
 
     @Test
-    @Disabled
     public void taskHello() {
         assertProject("task-hello.granny", project -> {
         });
@@ -220,6 +209,17 @@ public class BuildTest {
             return Paths.get(resource.toURI()).toFile();
         } catch (URISyntaxException e) {
             throw new AssertionError("Never happens");
+        }
+    }
+
+    public interface TestTask extends Task {
+        int maxParallelForks = 1;
+    }
+
+    public static class KotlinPlugin implements ApplyConfig.Plugin {
+        @Override
+        public void apply(Project project) {
+            project.compilers.add("kotlin");
         }
     }
 }

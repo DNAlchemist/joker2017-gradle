@@ -5,6 +5,7 @@ import groovy.lang.GroovyShell;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.runtime.ResourceGroovyMethods;
 import ru.jpoint2017.exception.InternalException;
+import ru.jpoint2017.task.TaskDefinitionCustomizer;
 
 import java.io.File;
 import java.io.IOException;
