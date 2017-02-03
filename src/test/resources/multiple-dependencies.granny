@@ -1,0 +1,6 @@
+dependencies {
+   compile 'org.ow2.asm:asm-all:5.0.3',
+        'junit:junit:4.12'
+
+   compile group: 'junit', name: 'junit', version: '4.11'
+}

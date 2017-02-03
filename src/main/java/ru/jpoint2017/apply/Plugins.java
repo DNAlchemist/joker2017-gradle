@@ -1,6 +1,6 @@
-package ru.jpoint2017;
+package ru.jpoint2017.apply;
 
-import ru.jpoint2017.ApplyConfig.Plugin;
+import ru.jpoint2017.apply.ApplyConfig.Plugin;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,22 +1,23 @@
 package ru.jpoint2017;
 
-import groovy.lang.Closure;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import ru.jpoint2017.apply.ApplyConfig;
+import ru.jpoint2017.dependency.Dependency;
+import ru.jpoint2017.repository.MavenRepository;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.Collection;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Created by ruslanmikhalev on 30/01/17.
- */
 @Tag("fast")
 public class BuildTest {
 
@@ -53,18 +54,18 @@ public class BuildTest {
         });
     }
 
-    public static class KotlinPlugin implements ApplyConfig.Plugin {
-        @Override
-        public void apply(Project project) {
-            project.compilers.add("kotlin");
-        }
-    }
-
     @Test
     public void applyCustomPlugin() {
         assertProject("apply-custom-plugin.granny", project -> {
             assertTrue(project.compilers.contains("kotlin"));
         });
+    }
+
+    public static class KotlinPlugin implements ApplyConfig.Plugin {
+        @Override
+        public void apply(Project project) {
+            project.compilers.add("kotlin");
+        }
     }
 
     @Test
@@ -118,9 +119,84 @@ public class BuildTest {
         assertProject("custom-repository.granny", project -> {
             assertTrue(project.getRepositories().stream()
                     .map(MavenRepository::getUrl)
-                    .filter("http://custom-repository.com"::equals)
-                    .findAny()
-                    .isPresent());
+                    .anyMatch("http://custom-repository.com"::equals));
+        });
+    }
+
+    @Test
+    public void simpleDependency() {
+        assertProject("simple-dependencies.granny", project -> {
+            assertEquals(1, project.getDependencies().size());
+            assertTrue(project.getDependencies().stream()
+                    .map(Dependency::getUrl)
+                    .anyMatch("org.ow2.asm:asm-all:5.0.3"::equals));
+        });
+    }
+
+    @Test
+    public void mapDependency() {
+        assertProject("map-dependencies.granny", project -> {
+            assertEquals(1, project.getDependencies().size());
+            assertTrue(project.getDependencies().stream()
+                    .map(Dependency::getUrl)
+                    .anyMatch("junit:junit:4.12"::equals));
+        });
+    }
+
+    @Test
+    public void multipleDependency() {
+        List<String> dependencies = Arrays.asList("org.ow2.asm:asm-all:5.0.3",
+                "junit:junit:4.12",
+                "junit:junit:4.11");
+
+        assertProject("multiple-dependencies.granny", project -> {
+            assertEquals(3, project.getDependencies().size());
+            assertEquals(3, project.getDependencies().stream()
+                    .map(Dependency::getUrl)
+                    .filter(dependencies::contains)
+                    .count());
+        });
+    }
+
+    @Test
+    @Disabled
+    public void taskEmpty() {
+        assertProject("task-empty.granny", project -> {
+        });
+    }
+
+    @Test
+    @Disabled
+    public void taskHello() {
+        assertProject("task-hello.granny", project -> {
+        });
+    }
+
+    @Test
+    @Disabled
+    public void taskDependsOn() {
+        assertProject("task-dependsOn.granny", project -> {
+        });
+    }
+
+    @Test
+    @Disabled
+    public void taskDependsOnField() {
+        assertProject("task-dependsOnField.granny", project -> {
+        });
+    }
+
+    @Test
+    @Disabled
+    public void taskDoFirst() {
+        assertProject("task-doFirst.granny", project -> {
+        });
+    }
+
+    @Test
+    @Disabled
+    public void taskDoFirstField() {
+        assertProject("task-doFirst-field.granny", project -> {
         });
     }
 

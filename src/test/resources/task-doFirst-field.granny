@@ -1,0 +1,7 @@
+task hello {
+    println '1'
+}
+
+hello.doFirst {
+    println '2'
+}

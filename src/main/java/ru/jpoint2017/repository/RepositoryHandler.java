@@ -1,4 +1,4 @@
-package ru.jpoint2017;
+package ru.jpoint2017.repository;
 
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
@@ -9,7 +9,7 @@ import java.util.Set;
 @SuppressWarnings("WeakerAccess")
 public class RepositoryHandler {
 
-    Set<MavenRepository> repositories = new HashSet<>();
+    public final Set<MavenRepository> repositories = new HashSet<>();
 
     public void maven(@DelegatesTo(MavenRepository.class) Closure closure) {
         MavenRepository mavenRepository = new MavenRepository();

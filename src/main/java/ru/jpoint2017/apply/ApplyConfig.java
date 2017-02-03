@@ -1,4 +1,8 @@
-package ru.jpoint2017;
+package ru.jpoint2017.apply;
+
+import ru.jpoint2017.GrannyInternal;
+import ru.jpoint2017.Project;
+import ru.jpoint2017.exception.InternalException;
 
 import java.io.File;
 

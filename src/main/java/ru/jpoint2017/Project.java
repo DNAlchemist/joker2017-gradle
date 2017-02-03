@@ -3,6 +3,11 @@ package ru.jpoint2017;
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.lang.GroovyObjectSupport;
+import ru.jpoint2017.apply.ApplyConfig;
+import ru.jpoint2017.dependency.Dependency;
+import ru.jpoint2017.dependency.DependencyHandler;
+import ru.jpoint2017.repository.MavenRepository;
+import ru.jpoint2017.repository.RepositoryHandler;
 
 import java.io.File;
 import java.util.HashMap;
@@ -10,35 +15,26 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by ruslanmikhalev on 30/01/17.
- */
 @SuppressWarnings("WeakerAccess")
-public class Project extends GroovyObjectSupport implements PluginAware {
+public class Project extends GroovyObjectSupport {
 
-    Set<String> compilers = new HashSet<>();
+    public final Set<String> compilers = new HashSet<>();
 
     final File projectDir;
     private String sourceCompatibility;
     private RepositoryHandler repositoryHandler = new RepositoryHandler();
     private TaskHandler tasks = new TaskHandler();
+    private DependencyHandler dependencyHandler = new DependencyHandler();
 
     public Project(File projectDir) {
         this.projectDir = projectDir;
     }
 
-    @Override
     public void apply(@DelegatesTo(ApplyConfig.class) Closure closure) {
         closure.setDelegate(new ApplyConfig(this));
         closure.call();
     }
 
-    @Override
-    public void apply(Action<? super ApplyConfig> action) {
-        throw new UnsupportedOperationException("apply");
-    }
-
-    @Override
     public void apply(@DelegatesTo(ApplyConfig.class) Map<String, ?> options) {
         ApplyConfig applyConfig = new ApplyConfig(this);
         applyConfig.from((String)options.get("from"));
@@ -53,12 +49,12 @@ public class Project extends GroovyObjectSupport implements PluginAware {
         return projectDir;
     }
 
-    public void setSourceCompatibility(String sourceCompatibility) {
-        this.sourceCompatibility = sourceCompatibility;
-    }
-
     public String getSourceCompatibility() {
         return sourceCompatibility;
+    }
+
+    public void setSourceCompatibility(String sourceCompatibility) {
+        this.sourceCompatibility = sourceCompatibility;
     }
 
     public Set<MavenRepository> getRepositories() {
@@ -77,4 +73,14 @@ public class Project extends GroovyObjectSupport implements PluginAware {
     public TaskHandler getTasks() {
         return tasks;
     }
+
+    public Set<Dependency> getDependencies() {
+        return dependencyHandler.depends;
+    }
+
+    public void dependencies(@DelegatesTo(DependencyHandler.class) Closure closure) {
+        closure.setDelegate(dependencyHandler);
+        closure.call();
+    }
+
 }

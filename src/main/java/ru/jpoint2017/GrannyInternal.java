@@ -4,6 +4,7 @@ import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.runtime.ResourceGroovyMethods;
+import ru.jpoint2017.exception.InternalException;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +13,8 @@ import java.io.IOException;
 public class GrannyInternal {
 
     private final CompilerConfiguration compilerConfiguration;
-    private Binding binding;
     String scriptText;
+    private Binding binding;
 
     public GrannyInternal(File buildScript) {
         this(buildScript, new Project(buildScript.getParentFile()));
@@ -39,5 +40,4 @@ public class GrannyInternal {
         shell.evaluate(scriptText);
         return (Project) shell.getProperty("project");
     }
-
 }
