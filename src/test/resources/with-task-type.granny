@@ -1,0 +1,5 @@
+import ru.jpoint2017.BuildTest
+
+getTasks().withType(BuildTest.TestTask) {
+    maxParallelForks = 2;
+}

@@ -5,6 +5,7 @@ import groovy.lang.DelegatesTo;
 import groovy.lang.GroovyObjectSupport;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +21,7 @@ public class Project extends GroovyObjectSupport implements PluginAware {
     final File projectDir;
     private String sourceCompatibility;
     private RepositoryHandler repositoryHandler = new RepositoryHandler();
+    private TaskHandler tasks = new TaskHandler();
 
     public Project(File projectDir) {
         this.projectDir = projectDir;
@@ -37,7 +39,7 @@ public class Project extends GroovyObjectSupport implements PluginAware {
     }
 
     @Override
-    public void apply(Map<String, ?> options) {
+    public void apply(@DelegatesTo(ApplyConfig.class) Map<String, ?> options) {
         ApplyConfig applyConfig = new ApplyConfig(this);
         applyConfig.from((String)options.get("from"));
 
@@ -66,5 +68,13 @@ public class Project extends GroovyObjectSupport implements PluginAware {
     public void repository(@DelegatesTo(RepositoryHandler.class) Closure closure) {
         closure.setDelegate(repositoryHandler);
         closure.call();
+    }
+
+    public void task(String name, @DelegatesTo(Task.class)Closure closure) {
+        tasks.putTask(name, closure::call);
+    }
+
+    public TaskHandler getTasks() {
+        return tasks;
     }
 }

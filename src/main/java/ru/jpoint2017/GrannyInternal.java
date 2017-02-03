@@ -26,7 +26,10 @@ public class GrannyInternal {
             throw new InternalException("Build script not found!", e);
         }
         compilerConfiguration = new CompilerConfiguration();
+        TaskDefinitionCustomizer customizer = new TaskDefinitionCustomizer();
         compilerConfiguration.setScriptBaseClass(ProjectScript.class.getName());
+        compilerConfiguration.addCompilationCustomizers(customizer);
+        compilerConfiguration.setDefaultScriptExtension(".granny");
         binding = new Binding();
         binding.setProperty("project", project);
     }
