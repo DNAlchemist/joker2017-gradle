@@ -1,10 +1,11 @@
-package ru.jpoint2017.apply;
+package com.joker2017.apply;
 
-import ru.jpoint2017.GrannyInternal;
-import ru.jpoint2017.Project;
-import ru.jpoint2017.exception.InternalException;
+import com.joker2017.GrannyInternal;
+import com.joker2017.Project;
+import com.joker2017.exception.InternalException;
 
 import java.io.File;
+import java.io.IOException;
 
 @SuppressWarnings("WeakerAccess")
 public class ApplyConfig {
@@ -19,9 +20,9 @@ public class ApplyConfig {
         void apply(Project project);
     }
 
-    public void from(final String from) {
+    public void from(final String from) throws IOException {
         if(from != null) {
-            GrannyInternal internal = new GrannyInternal(new File(project.getProjectDir(), from), project);
+            GrannyInternal internal = new GrannyInternal(new File(project.getScript(), from), project);
             internal.build();
         }
     }

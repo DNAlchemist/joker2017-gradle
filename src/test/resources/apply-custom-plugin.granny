@@ -1,3 +1,3 @@
-import ru.jpoint2017.BuildTest
+import com.joker2017.BuildTest
 
 apply plugin: BuildTest.KotlinPlugin

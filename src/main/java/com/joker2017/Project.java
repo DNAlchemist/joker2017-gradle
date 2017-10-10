@@ -1,17 +1,16 @@
-package ru.jpoint2017;
+package com.joker2017;
 
+import com.joker2017.apply.ApplyConfig;
+import com.joker2017.dependency.DependencyHandler;
+import com.joker2017.repository.RepositoryHandler;
+import com.joker2017.task.Task;
+import com.joker2017.task.TaskHandler;
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.lang.GroovyObjectSupport;
-import ru.jpoint2017.apply.ApplyConfig;
-import ru.jpoint2017.dependency.Dependency;
-import ru.jpoint2017.dependency.DependencyHandler;
-import ru.jpoint2017.repository.MavenRepository;
-import ru.jpoint2017.repository.RepositoryHandler;
-import ru.jpoint2017.task.Task;
-import ru.jpoint2017.task.TaskHandler;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -21,14 +20,14 @@ public class Project extends GroovyObjectSupport {
 
     public final Set<String> compilers = new HashSet<>();
 
-    final File projectDir;
+    final File script;
     private String sourceCompatibility;
     private RepositoryHandler repositoryHandler = new RepositoryHandler();
-    private TaskHandler tasks = new TaskHandler();
     private DependencyHandler dependencyHandler = new DependencyHandler();
+    private TaskHandler tasks = new TaskHandler();
 
-    public Project(File projectDir) {
-        this.projectDir = projectDir;
+    public Project(File script) {
+        this.script = script;
     }
 
     public void apply(@DelegatesTo(ApplyConfig.class) Closure closure) {
@@ -36,7 +35,7 @@ public class Project extends GroovyObjectSupport {
         closure.call();
     }
 
-    public void apply(@DelegatesTo(ApplyConfig.class) Map<String, ?> options) {
+    public void apply(@DelegatesTo(ApplyConfig.class) Map<String, ?> options) throws IOException {
         ApplyConfig applyConfig = new ApplyConfig(this);
         applyConfig.from((String)options.get("from"));
 
@@ -46,8 +45,8 @@ public class Project extends GroovyObjectSupport {
             applyConfig.plugin((Class<ApplyConfig.Plugin>)options.get("plugin"));
     }
 
-    public File getProjectDir() {
-        return projectDir;
+    public File getScript() {
+        return script;
     }
 
     public String getSourceCompatibility() {
@@ -58,7 +57,7 @@ public class Project extends GroovyObjectSupport {
         this.sourceCompatibility = sourceCompatibility;
     }
 
-    public Set<MavenRepository> getRepositories() {
+    public Set<String> getRepositories() {
         return repositoryHandler.repositories;
     }
 
@@ -75,13 +74,17 @@ public class Project extends GroovyObjectSupport {
         return tasks;
     }
 
-    public Set<Dependency> getDependencies() {
+    public Set<String> getDependencies() {
         return dependencyHandler.depends;
     }
+
+    public Set<String> getTestDependencies() {
+        return dependencyHandler.testDeps;
+    }
+
 
     public void dependencies(@DelegatesTo(DependencyHandler.class) Closure closure) {
         closure.setDelegate(dependencyHandler);
         closure.call();
     }
-
 }

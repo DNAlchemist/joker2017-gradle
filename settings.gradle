@@ -16,4 +16,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'jpoint2017-gradle'
+rootProject.name = 'joker2017-gradle'

@@ -1,4 +1,4 @@
-package ru.jpoint2017.task;
+package com.joker2017.task;
 
 @FunctionalInterface
 public interface Task extends Runnable {

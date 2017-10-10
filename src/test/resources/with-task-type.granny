@@ -1,4 +1,4 @@
-import ru.jpoint2017.BuildTest
+import com.joker2017.BuildTest
 
 getTasks().withType(BuildTest.TestTask) {
     maxParallelForks = 2;

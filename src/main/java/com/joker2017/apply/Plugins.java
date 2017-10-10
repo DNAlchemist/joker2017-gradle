@@ -1,6 +1,6 @@
-package ru.jpoint2017.apply;
+package com.joker2017.apply;
 
-import ru.jpoint2017.apply.ApplyConfig.Plugin;
+import com.joker2017.apply.ApplyConfig.Plugin;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package ru.jpoint2017.exception;
+package com.joker2017.exception;
 
 public class InternalException extends RuntimeException {
     public InternalException(String reason, Throwable cause) {

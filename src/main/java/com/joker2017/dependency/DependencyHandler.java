@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.jpoint2017.dependency;
+package com.joker2017.dependency;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,15 +21,14 @@ import java.util.Map;
 import java.util.Set;
 
 public class DependencyHandler {
-    public final Set<Dependency> depends = new HashSet<>();
+    public final Set<String> depends = new HashSet<>();
+    public final Set<String> testDeps = new HashSet<>();
 
     public void compile(String... dependencies) {
-        Arrays.stream(dependencies)
-                .map(Dependency::new)
-                .forEach(depends::add);
+        depends.addAll(Arrays.asList(dependencies));
     }
 
-    public void compile(Map<String, String> dependency) {
-        depends.add(new Dependency(dependency));
+    public void testCompile(Map<String, String> d) {
+        testDeps.add(d.get("group") + ":" + d.get("name") + ":" + d.get("version"));
     }
 }

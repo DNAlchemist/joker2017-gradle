@@ -1,14 +1,11 @@
-package ru.jpoint2017;
+package com.joker2017;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import ru.jpoint2017.apply.ApplyConfig;
-import ru.jpoint2017.dependency.Dependency;
-import ru.jpoint2017.repository.MavenRepository;
-import ru.jpoint2017.task.Task;
+import com.joker2017.apply.ApplyConfig;
+import com.joker2017.task.Task;
+import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -16,194 +13,133 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-@Tag("fast")
 public class BuildTest {
 
     @Test
-    public void evalEmptyProject() {
+    public void evalEmptyProject() throws IOException {
         assertProject("empty.granny", project -> {
             assertEquals(0, project.compilers.size());
         });
     }
 
     @Test
-    public void applyMap() {
-        assertProject("apply-plugin.granny", project -> { });
+    public void applyMap() throws IOException {
+        assertProject("apply-plugin.granny", project -> {
+        });
     }
 
     @Test
-    public void applyMapJava() {
+    public void applyMapJava() throws IOException {
         assertProject("apply-plugin.granny", project -> {
             assertTrue(project.compilers.contains("java"));
         });
     }
 
     @Test
-    public void applyFromEmpty() {
+    public void applyFromEmpty() throws IOException {
         assertProject("apply-from-empty.granny", project -> {
             assertEquals(0, project.compilers.size());
         });
     }
 
     @Test
-    public void applyFrom() {
+    public void applyFrom() throws IOException {
         assertProject("apply-from.granny", project -> {
             assertTrue(project.compilers.contains("java"));
         });
     }
 
     @Test
-    public void applyCustomPlugin() {
+    public void applyCustomPlugin() throws IOException {
         assertProject("apply-custom-plugin.granny", project -> {
             assertTrue(project.compilers.contains("kotlin"));
         });
     }
 
     @Test
-    public void setSourceCompatibility() {
+    public void setSourceCompatibility() throws IOException {
         assertProject("set-source-compatibility.granny", project -> {
             assertEquals("1.9", project.getSourceCompatibility());
         });
     }
 
     @Test
-    public void defaultRepository() {
+    public void defaultRepository() throws IOException {
         assertProject("default-repository.granny", project -> {
             assertEquals(1, project.getRepositories().size());
         });
     }
 
     @Test
-    public void taskDefinition() {
-        assertProject("create-task.granny", project -> {
-            assertEquals(1, project.getTasks().size());
-        });
-    }
-
-    @Test
-    public void taskDefinitionAst() {
+    public void taskDefinitionAst() throws IOException {
         assertProject("create-task-ast.granny", project -> {
             assertEquals(1, project.getTasks().size());
         });
     }
 
     @Test
-    public void customRepository() {
+    public void customRepository() throws IOException {
         assertProject("custom-repository.granny", project -> {
             assertTrue(project.getRepositories().stream()
-                    .map(MavenRepository::getUrl)
                     .anyMatch("http://custom-repository.com"::equals));
         });
     }
 
     @Test
-    public void simpleDependency() {
+    public void simpleDependency() throws IOException {
         assertProject("simple-dependencies.granny", project -> {
             assertEquals(1, project.getDependencies().size());
             assertTrue(project.getDependencies().stream()
-                    .map(Dependency::getUrl)
                     .anyMatch("org.ow2.asm:asm-all:5.0.3"::equals));
         });
     }
 
-//    @Test
-//    public void withTaskType() {
-//        String resourceName = "with-task-type.granny";
-//        File resource = getBuildFileFromResources(resourceName);
-//        Project myProject = new Project(resource.getParentFile());
-//        myProject.getTasks().putTask("test", );
-//        assertProject(resource, myProject, project -> {
-//            Collection<Task> testTasks = project.getTasks().withType(TestTask.class);
-//            assertEquals(1, testTasks);
-//            testTasks.forEach(Task::run);
-//            assertEquals("1.9", project.getSourceCompatibility());
-//        });
-//    }
-
     @Test
-    public void mapDependency() {
+    public void mapDependency() throws IOException {
         assertProject("map-dependencies.granny", project -> {
-            assertEquals(1, project.getDependencies().size());
-            assertTrue(project.getDependencies().stream()
-                    .map(Dependency::getUrl)
+            assertEquals(1, project.getTestDependencies().size());
+            assertTrue(project.getTestDependencies().stream()
                     .anyMatch("junit:junit:4.12"::equals));
         });
     }
 
     @Test
-    public void multipleDependency() {
+    public void multipleDependency() throws IOException {
         List<String> dependencies = Arrays.asList("org.ow2.asm:asm-all:5.0.3",
-                "junit:junit:4.12",
-                "junit:junit:4.11");
+                "junit:junit:4.12");
 
         assertProject("multiple-dependencies.granny", project -> {
-            assertEquals(3, project.getDependencies().size());
-            assertEquals(3, project.getDependencies().stream()
-                    .map(Dependency::getUrl)
+            assertEquals(2, project.getDependencies().size());
+            assertEquals(2, project.getDependencies().stream()
                     .filter(dependencies::contains)
                     .count());
         });
     }
 
     @Test
-    @Disabled
-    public void taskEmpty() {
-        assertProject("task-empty.granny", project -> {
-        });
-    }
-
-    @Test
-    public void taskHello() {
+    public void taskHello() throws IOException {
         assertProject("task-hello.granny", project -> {
         });
     }
 
-    @Test
-    @Disabled
-    public void taskDependsOn() {
-        assertProject("task-dependsOn.granny", project -> {
-        });
-    }
-
-    @Test
-    @Disabled
-    public void taskDependsOnField() {
-        assertProject("task-dependsOnField.granny", project -> {
-        });
-    }
-
-    @Test
-    @Disabled
-    public void taskDoFirst() {
-        assertProject("task-doFirst.granny", project -> {
-        });
-    }
-
-    @Test
-    @Disabled
-    public void taskDoFirstField() {
-        assertProject("task-doFirst-field.granny", project -> {
-        });
-    }
-
-    private void assertProject(String resourceName, Consumer<Project> consumer) {
+    private void assertProject(String resourceName, Consumer<Project> consumer) throws IOException {
         File resource = getBuildFileFromResources(resourceName);
         assertProject(resource, new Project(resource.getParentFile()), consumer);
     }
 
-    private void assertProject(File resource, Project project, Consumer<Project> consumer) {
-        GrannyInternal internal = new GrannyInternal(resource, project);
-        internal.build();
+    private void assertProject(File resource, Project project, Consumer<Project> consumer) throws IOException {
+        new GrannyInternal(resource, project)
+                .build();
         consumer.accept(project);
     }
 
     private File getBuildFileFromResources(String resourceName) {
         try {
             URL resource = getClass().getClassLoader().getResource(resourceName);
-            if(resource == null) {
+            if (resource == null) {
                 throw new AssertionError("Resource " + resourceName + " has not been found");
             }
             return Paths.get(resource.toURI()).toFile();
